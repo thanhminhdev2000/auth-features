@@ -140,6 +140,51 @@ export const login = async (req, res) => {
   }
 };
 
+export const loginGoogle = async (req, res) => {
+  const { email, name } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (user) {
+      generateTokenAndSetCookie(res, user._id);
+      user.lastLogin = new Date();
+      await user.save();
+
+      return res.status(200).json({
+        success: true,
+        user: {
+          ...user._doc,
+          password: undefined,
+        },
+      });
+    } else {
+      const user = new User({
+        email,
+        name,
+        isVerified: true,
+      });
+
+      await user.save();
+      generateTokenAndSetCookie(res, user._id);
+
+      return res.status(201).json({
+        success: true,
+        message: "User created successfully",
+        user: {
+          ...user._doc,
+          password: undefined,
+        },
+      });
+    }
+  } catch (error) {
+    console.log("Error in login ", error);
+    return res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export const logout = async (req, res) => {
   res.clearCookie("token");
   return res.status(200).json({

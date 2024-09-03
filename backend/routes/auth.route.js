@@ -3,6 +3,7 @@ import {
   checkAuth,
   forgotPassword,
   login,
+  loginGoogle,
   logout,
   resetPassword,
   signup,
@@ -16,6 +17,7 @@ router.get("/check-auth", verifyToken, checkAuth);
 
 router.post("/signup", signup);
 router.post("/login", login);
+router.post("/login-google", loginGoogle);
 router.post("/logout", logout);
 
 router.post("/verify-email", verifyEmail);

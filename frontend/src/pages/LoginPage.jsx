@@ -4,16 +4,24 @@ import { Mail, Lock, Loader } from "lucide-react";
 import { Link } from "react-router-dom";
 import Input from "../components/Input";
 import { useAuthStore } from "../store/authStore";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login, isLoading, error } = useAuthStore();
+  const { login, loginGoogle, isLoading, error } = useAuthStore();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     await login(email, password);
+  };
+
+  const handleLoginGoogle = async (credentialResponse) => {
+    const decoded = jwtDecode(credentialResponse?.credential);
+    const { email, name } = decoded;
+    await loginGoogle(email, name);
   };
 
   return (
@@ -27,7 +35,6 @@ const LoginPage = () => {
         <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text">
           Welcome Back
         </h2>
-
         <form onSubmit={handleLogin}>
           <Input
             icon={Mail}
@@ -69,10 +76,19 @@ const LoginPage = () => {
             )}
           </motion.button>
         </form>
+
+        <div className="mt-4 flex justify-center">
+          <GoogleLogin
+            onSuccess={handleLoginGoogle}
+            onError={() => {
+              console.log("Login Failed");
+            }}
+          />
+        </div>
       </div>
       <div className="px-8 py-4 bg-gray-900 bg-opacity-50 flex justify-center">
         <p className="text-sm text-gray-400">
-          Don&apos;t have an account?
+          Don't have an account?
           <Link to="/signup" className="text-green-400 hover:underline">
             Sign up
           </Link>
