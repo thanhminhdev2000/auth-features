@@ -1,15 +1,16 @@
+/* eslint-disable no-undef */
 import {
   PASSWORD_RESET_REQUEST_TEMPLATE,
   PASSWORD_RESET_SUCCESS_TEMPLATE,
   VERIFICATION_EMAIL_TEMPLATE,
 } from "./emailTemplates.js";
-import { mailtrapClient, sender } from "./maitrap.config.js";
+import { sender, transporter } from "./nodemailer.config.js";
 
 export const sendVerificationEmail = async (email, verificationToken) => {
-  const recipient = [{ email }];
+  const recipient = [email];
 
   try {
-    const response = await mailtrapClient.send({
+    const response = await transporter.sendMail({
       from: sender,
       to: recipient,
       subject: "Verify your email",
@@ -28,10 +29,10 @@ export const sendVerificationEmail = async (email, verificationToken) => {
 };
 
 export const sendWelcomeEmail = async (email, name) => {
-  const recipient = [{ email }];
+  const recipient = [email];
 
   try {
-    const response = await mailtrapClient.send({
+    const response = await transporter.sendMail({
       from: sender,
       to: recipient,
       template_uuid: "89a29d28-108e-40db-b625-84933b100b74",
@@ -49,10 +50,10 @@ export const sendWelcomeEmail = async (email, name) => {
 };
 
 export const sendPasswordResetEmail = async (email, resetURL) => {
-  const recipient = [{ email }];
+  const recipient = [email];
 
   try {
-    const response = await mailtrapClient.send({
+    const response = await transporter.sendMail({
       from: sender,
       to: recipient,
       subject: "Reset your password",
@@ -68,10 +69,10 @@ export const sendPasswordResetEmail = async (email, resetURL) => {
 };
 
 export const sendResetSuccessEmail = async (email) => {
-  const recipient = [{ email }];
+  const recipient = [email];
 
   try {
-    const response = await mailtrapClient.send({
+    const response = await transporter.sendMail({
       from: sender,
       to: recipient,
       subject: "Reset Password  Successfully",

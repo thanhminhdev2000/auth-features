@@ -6,7 +6,7 @@ import {
   sendResetSuccessEmail,
   sendVerificationEmail,
   sendWelcomeEmail,
-} from "../mailtrap/emails.js";
+} from "../nodemailer/emails.js";
 import crypto from "crypto";
 
 export const signup = async (req, res) => {
