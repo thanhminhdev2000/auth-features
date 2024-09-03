@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { MailtrapClient } from "mailtrap";
 import dotenv from "dotenv";
 

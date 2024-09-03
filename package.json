@@ -1,13 +1,13 @@
 {
   "name": "auth-features",
   "version": "1.0.0",
-  "main": "backend/index.js",
+  "main": "index.js",
   "scripts": {
-    "dev": "nodemon backend/index.js"
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
-  "type":"module",
+  "type": "module",
   "license": "ISC",
   "description": "",
   "dependencies": {
@@ -21,6 +21,9 @@
     "mongoose": "^8.6.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.9.1",
+    "eslint": "^9.9.1",
+    "globals": "^15.9.0",
     "nodemon": "^3.1.4"
   }
 }
