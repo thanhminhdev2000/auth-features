@@ -13,6 +13,7 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "./store/authStore";
 import { useEffect } from "react";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 // protect routes that require authentication
 const ProtectedRoute = ({ children }) => {
@@ -41,6 +42,8 @@ const RedirectAuthenticatedUser = ({ children }) => {
 };
 
 function App() {
+  const GOOGLE_CLIENT_ID =
+    "680003657174-aqste8emfn82sgmbgorpdtjq0u4pmodh.apps.googleusercontent.com";
   const { isCheckingAuth, checkAuth } = useAuthStore();
 
   useEffect(() => {
@@ -97,7 +100,9 @@ function App() {
           path="/login"
           element={
             <RedirectAuthenticatedUser>
-              <LoginPage />
+              <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+                <LoginPage />
+              </GoogleOAuthProvider>
             </RedirectAuthenticatedUser>
           }
         />
